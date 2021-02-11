@@ -135,6 +135,6 @@ const stateToPrintable = (state: State) =>
   )
 
 const useDebugState = (state: State) => {
-  useAtomic(state, stateToPrintable);
-  useDebugValue(state, stateToPrintable);
+  useAtomic(state, stateToPrintable)
+  useDebugValue(state, stateToPrintable)
 }
