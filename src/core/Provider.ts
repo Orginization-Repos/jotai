@@ -11,6 +11,7 @@ import React, {
 import { useContextUpdate } from 'use-context-selector'
 
 import { Atom, WritableAtom, AnyAtom, Scope } from './types'
+// import {useAtomic} from './useAtomic';
 import {
   AtomState,
   State,
@@ -22,6 +23,7 @@ import {
   commitState,
 } from './vanilla'
 import { getContexts } from './contexts'
+import { useAtomic } from './useAtomic'
 
 // guessing if it's react experimental channel
 const isReactExperimental =
@@ -93,6 +95,7 @@ export const Provider: React.FC<{
   )
   if (typeof process === 'object' && process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line react-hooks/rules-of-hooks
+    console.log('in here! separate repo')
     useDebugState(state)
   }
   const [ActionsContext, StateContext] = getContexts(scope)
@@ -132,5 +135,6 @@ const stateToPrintable = (state: State) =>
   )
 
 const useDebugState = (state: State) => {
-  useDebugValue(state, stateToPrintable)
+  useAtomic(state, stateToPrintable);
+  useDebugValue(state, stateToPrintable);
 }
