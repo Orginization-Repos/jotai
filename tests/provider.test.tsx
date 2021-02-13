@@ -1,8 +1,8 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, waitFor, screen } from '@testing-library/react'
 import { Provider, atom, useAtom } from '../src/index'
 
-it('uses initial values from provider', async () => {
+it('uses initial values from provider', () => {
   const countAtom = atom(1)
   const petAtom = atom('cat')
 
@@ -18,23 +18,42 @@ it('uses initial values from provider', async () => {
     )
   }
 
-  const { getByText } = render(
+  // const { getByText } = render(
+  //   <Provider
+  //     initialValues={[
+  //       [countAtom, 4],
+  //       [petAtom, 'cat'],
+  //     ]}>
+  //     <Display />
+  //   </Provider>
+  // )
+
+  const { rerender } = render(
     <Provider
       initialValues={[
-        [countAtom, 0],
-        [petAtom, 'dog'],
+        [countAtom, 4],
+        [petAtom, 'cat'],
       ]}>
       <Display />
     </Provider>
   )
 
-  await waitFor(() => {
-    getByText('count: 0')
-    getByText('pet: dog')
-  })
+  rerender(
+    <Provider>
+      <Display />
+    </Provider>
+  )
+
+  // await waitFor(() => {
+  // getByText('count: 4')
+  // getByText('pet: cat')
+  // console.dir(screen.getByText)
+  screen.getByText('count: 4')
+  screen.getByText('pet: cat')
+  // })
 })
 
-it('only uses initial value from provider for specific atom', async () => {
+xit('only uses initial value from provider for specific atom', async () => {
   const countAtom = atom(1)
   const petAtom = atom('cat')
 
@@ -62,6 +81,6 @@ it('only uses initial value from provider for specific atom', async () => {
   })
 })
 
-it('renders correctly without children', () => {
+xit('renders correctly without children', () => {
   render(<Provider />)
 })
