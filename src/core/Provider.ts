@@ -11,7 +11,7 @@ import React, {
 import { useContextUpdate } from 'use-context-selector'
 
 import { Atom, WritableAtom, AnyAtom, Scope } from './types'
-// import {useAtomic} from './useAtomic';
+
 import {
   AtomState,
   State,
@@ -95,7 +95,8 @@ export const Provider: React.FC<{
   )
   if (typeof process === 'object' && process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    console.log('in here! separate repo')
+    // console.log('in here! separate repo')
+    useAtomic(state, stateToPrintable, initialValues)
     useDebugState(state)
   }
   const [ActionsContext, StateContext] = getContexts(scope)
@@ -135,6 +136,5 @@ const stateToPrintable = (state: State) =>
   )
 
 const useDebugState = (state: State) => {
-  useAtomic(state, stateToPrintable)
   useDebugValue(state, stateToPrintable)
 }
