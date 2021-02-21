@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useDebugValue } from 'react'
 import { useAtom, WritableAtom } from 'jotai'
 
 type Config = {
@@ -35,7 +35,9 @@ export function useAtomDevtools<Value>(
 ) {
   let extension: Extension | undefined
   try {
-    extension = (window as any).__REDUX_DEVTOOLS_EXTENSION__ as Extension
+    extension =
+      ((window as any).__ATOMIC_DEVTOOLS_EXTENSION__ as Extension) ||
+      ((window as any).__REDUX_DEVTOOLS_EXTENSION__ as Extension)
   } catch {}
   if (!extension) {
     if (
@@ -87,6 +89,7 @@ export function useAtomDevtools<Value>(
       } else if (isTimeTraveling.current) {
         isTimeTraveling.current = false
       } else {
+        useDebugValue({ atomName, dependancies })
         devtools.current.send(
           `${atomName} - ${new Date().toLocaleString()}`,
           value

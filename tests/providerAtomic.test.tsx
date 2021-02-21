@@ -1,6 +1,7 @@
 import React, { ReactElement, ReactNode, useRef, useEffect } from 'react'
 import { render, waitFor, screen } from '@testing-library/react'
 import { Provider, atom, useAtom, getAtom } from '../src/index'
+import { getContexts } from '../src/core/contexts'
 import {
   AnyAtom,
   WithInitialValue,
@@ -37,21 +38,21 @@ it('uses initial values from provider', () => {
     (get, set, _arg) => set(fourthAtom, get(fourthAtom) - 1)
   )
   const sixthAtom = atom(firstAtom)
-  console.log('firstAtom --> ', { firstAtom })
-  console.log('firstAtom --> ', typeof fifthAtom)
-  console.log('fifthAtom --> ', fifthAtom.toString)
+  // console.log('firstAtom --> ', { firstAtom })
+  // console.log('firstAtom --> ', typeof fifthAtom)
+  // console.log('fifthAtom --> ', fifthAtom.toString)
 
   const Child: React.FC = () => {
     const useAtomic = (atom: any) => {
-      console.log('atom in useAtomic --> ', atom)
+      // console.log('atom in useAtomic --> ', atom)
 
-      console.log(Object.keys(atom))
+      // console.log(Object.keys(atom))
 
       const atomName = Object.keys(atom)
 
       const atomToUse = atom[atomName]
 
-      console.log('atomToUse ---> ', atomToUse)
+      // console.log('atomToUse ---> ', atomToUse)
 
       return useAtom(atomToUse)
     }
@@ -65,9 +66,9 @@ it('uses initial values from provider', () => {
     // console.log('test5depOn4 --> ', test5depOn4)
     // const [testUseAtomic5] = useAtomic({ fifthAtom })
     const [testUseAtomic1] = useAtomic({ sixthAtom })
-    console.log('testUseAtomic1 --> ', testUseAtomic1)
-    console.log('test6 --> ', test6)
-    console.log('BOOL --> ', test6 === testUseAtomic1)
+    // console.log('testUseAtomic1 --> ', testUseAtomic1)
+    // console.log('test6 --> ', test6)
+    // console.log('BOOL --> ', test6 === testUseAtomic1)
     // console.log({ test4 })
 
     // console.log('child:test1 --> ', test1)
@@ -91,13 +92,33 @@ it('uses initial values from provider', () => {
     )
   }
 
-  const Parent: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const Parent: React.FC<any> = (props) => {
     // const [test1] = useAtom(firstAtom)
     // const [test2] = useAtom(secondAtom)
     // const [test3] = useAtom(thirdAtom)
     // const [test4] = useAtom(fourthAtom)
 
-    return <>{children}</>
+    // console.log('props --> ', props)
+    // console.log('getContexts --> ', getContexts()[1])
+
+    const currVal = getContexts()[1]['_currentValue']
+
+    const symbolKey = Reflect.ownKeys(currVal).find(
+      (key) => key.toString() === 'Symbol()'
+    )
+
+    const iterator = currVal[symbolKey].v.current.m.entries().next().value
+      ? currVal[symbolKey].v.current.m.entries().next().value[1][0].values()
+      : null
+
+    console.log('Name1 ---> ', iterator ? iterator.next().value : null)
+
+    console.log(
+      'Name2 ---> ',
+      iterator ? iterator.next().value.toString() : null
+    )
+
+    return <>{props.children}</>
   }
 
   // console.log(
@@ -121,13 +142,11 @@ it('uses initial values from provider', () => {
 
   const { rerender } = render(
     <Provider>
-      <useAtomic>
-        {' '}
-        //key: _IS_ATOMIC_
-        <Parent>
-          <Child />
-        </Parent>
-      </useAtomic>
+      {/* <useAtomic> */}
+      <Parent>
+        <Child />
+      </Parent>
+      {/* </useAtomic> */}
     </Provider>
   )
 

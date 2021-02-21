@@ -1,0 +1,139 @@
+
+
+REACT DEV TOOL Component Hook Viewer 
+{
+  debugLabel: {dependents: Array(5), value: atom value}, ... , { ... }
+}
+
+REACT COMPONENT / fiber ()
+
+
+{
+  Hook: useDebugState = {
+    atom1: 
+  } 
+  state:
+}
+
+{
+  'KEY': {'`${atomName} - ${new Date().toLocaleString()}`, value'}
+}
+
+{
+  comp1: {  
+            state: [atom1]
+            Children: [comp2, comp3]
+            POS: {x, y, z}
+    }
+  comp2: { 
+            POS: {x, y, z}
+    }
+  comp3: {
+            POS: {x, y, z}
+    }
+}
+
+<line start={comp1.pos} end={comp2.pos} />
+<line start={comp1.pos} end={comp3.pos} />
+
+{
+  atom1: {  
+            component [comp1]
+            dependents: []
+            POS: {x, y, z}
+  }
+  atom2: {
+            component [comp3, comp2]
+            dependents: [atom1]
+            POS: {x, y, z}
+  }
+  atom3: {
+            component [comp3]
+            dependents: [atom1]
+            POS: {x, y, z}
+  }
+}
+
+<line start={atom2.pos} end={atom1.pos} />
+<line start={atom3.pos} end={comp1.pos} />
+
+<line start={atom2.pos} end={comp3.pos} />
+<line start={atom2.pos} end={comp2.pos} />
+<line start={atom3.pos} end={comp3.pos} />
+
+
+children: [
+    {
+      state: {
+        label: { value: 1, dependents: [ 'label' ] },
+        labels: { value: null, dependents: [ 'label' ] }
+      },
+      children: [],
+      name: '',
+      tag: 0,
+    },
+
+    //ONE
+    {
+      children: [
+
+        //TWO
+        {
+          children: [],
+          name: '',
+          tag: 0,
+        },
+        {
+          children: [
+
+            //THREE
+            {
+              children: [],
+              name: '',
+              tag: 0,
+            },
+            {
+              children: [
+
+                //FOUR
+                {
+                  children: [],
+                  name: '',
+                  tag: 0,
+                },
+              ],
+              name: '',
+              tag: 0,
+            },
+          ],
+          name: '',
+          tag: 0,
+        },
+      ],
+      name: '',
+      tag: 0,
+    },
+
+    //ONE
+    {
+      children: [
+
+        //TWO
+        {
+          children: [],
+          name: '',
+          tag: 0,
+        },
+        {
+          children: [],
+          name: '',
+          tag: 0,
+        },
+      ],
+      name: '',
+      tag: 0,
+    },
+  ],
+  name: '',
+  tag: 0,
+};

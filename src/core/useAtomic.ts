@@ -12,7 +12,7 @@ export function useAtomic(
   // console.log('a in state -->', JSON.stringify(state.a.get(initialValues[0])))
   // console.log('m in state -->', state.m)
   // console.log('w in state -->', state.w)
-  console.log('initialValues -->', initialValues)
+  // console.log('initialValues -->', initialValues)
 
   console.log('calling CB stateToPrintable--> ', callback(state))
 }
